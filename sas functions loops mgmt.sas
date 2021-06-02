@@ -571,6 +571,48 @@ else z = z + 1;
 by x;
 run;
 
+/****** SAS by Group Processing *****/
+
+ proc sort data=sashelp.cars out=new;
+ by make descending msrp ;
+ run;
+ 
+ 
+ data new1;
+ set new;
+ by make;
+ first=first.make;
+ last=last.make;
+ run;
+ 
+ data filter;
+ set new1;
+ if first=1 or last =1 ;
+ run;
+ 
+ 
+/*  nodupekey */
+ proc sort data=sashelp.cars(keep=make) nodupkey out=new;
+ by make;
+ run;
+ 
+ proc sort data=sashelp.cars out=multi;
+ by make type ;
+ run;
+ 
+data multi2 (keep= make type num_models_in_type) ;
+rename num = num_models_in_type;
+set multi;
+by make type;
+retain num;
+if First.make and First.type then do;
+num=0;
+end;
+num+1;
+if Last.type;
+ 
+run;
+
 /******** DO LOOPS : 
 
 There are four forms of the DO statement:
