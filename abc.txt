@@ -1,0 +1,33 @@
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3105299/
+
+https://lifelines.readthedocs.io/en/latest/fitters/regression/CoxPHFitter.html
+
+#types of residual functions
+https://stats.stackexchange.com/questions/297740/what-is-the-difference-between-the-different-types-of-residuals-in-survival-anal
+
+#CV issue
+https://github.com/CamDavidsonPilon/lifelines/issues/467
+
+
+from lifelines import CoxPHFitter
+from lifelines.datasets import load_regression_dataset
+from lifelines.utils import k_fold_cross_validation
+
+regression_dataset = load_regression_dataset()
+cph = CoxPHFitter()
+scores = k_fold_cross_validation(cph, regression_dataset, 'T', event_col='E', k=3)
+print(scores)
+#[-2.9896, -3.08810, -3.02747]
+
+scores = k_fold_cross_validation(cph, regression_dataset, 'T', event_col='E', k=3, scoring_method="concordance_index")
+print(scores)
+# [0.5449, 0.5587, 0.6179]
+
+#survival regression
+https://lifelines.readthedocs.io/en/latest/Survival%20Regression.html
+
+
+
+RMSE
+Residuals
+K_Fold Cross validation
